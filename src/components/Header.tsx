@@ -33,6 +33,9 @@ export default function Header(props: Props) {
 						<Link to={routes.home.to} title="Trang chủ" className={classes.link}>
 							Home
 						</Link>
+						<Link to="/some-tag" title="Contact" className={classes.link}>
+							Tag
+						</Link>
 						<Link to={routes.about.to} title="About me" className={classes.link}>
 							About me
 						</Link>
