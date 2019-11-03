@@ -33,8 +33,8 @@
 		"typescript": "3.6.4"
 	},
 	"scripts": {
-		"start": "react-scripts start .env.development",
-		"build": "react-scripts build .env.production",
+		"start": "react-scripts start .env.development.local",
+		"build": "react-scripts build .env.production.local",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
@@ -42,11 +42,7 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
 		"development": [
 			"last 1 chrome version",
 			"last 1 firefox version",
