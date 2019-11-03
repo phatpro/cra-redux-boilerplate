@@ -18,6 +18,7 @@
 		"@types/react-router-dom": "^5.1.1",
 		"@types/tryghost__content-api": "^1.2.0",
 		"connected-react-router": "^6.5.2",
+		"immer": "^5.0.0",
 		"normalizr": "^3.4.1",
 		"qs": "^6.9.0",
 		"react": "^16.11.0",
@@ -42,7 +43,11 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
 		"development": [
 			"last 1 chrome version",
 			"last 1 firefox version",

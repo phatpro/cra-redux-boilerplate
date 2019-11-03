@@ -14,32 +14,78 @@ declare global {
 		error: null | Error;
 		loading: boolean;
 		data: null | Posts;
+
+		errorUpdatedPost: null | Error;
+		loadingUpdatedPost: boolean;
+		dataUpdatedPost: null | Post;
 	};
 }
 
 // Tạo redux slice
 const name = 'loadPosts';
-const initialState: PostsState = { error: null, loading: false, data: null };
+const initialState: PostsState = {
+	error: null,
+	loading: false,
+	data: null,
+
+	errorUpdatedPost: null,
+	loadingUpdatedPost: false,
+	dataUpdatedPost: null
+};
 const loadPostsSlice = createSlice({
 	name,
 	initialState,
 	reducers: {
-		loadPostsRequest: (state, action) => ({ error: null, loading: true, data: null }),
-		loadPostsSuccess: (state, action) => ({
-			error: null,
-			loading: false,
-			data: action.payload
-		}),
-		loadPostsFailure: (state, action) => ({ error: action.payload, loading: false, data: null })
+		loadPostsRequest: (state, action) => {
+			state.loading = true;
+		},
+		loadPostsSuccess: (state, action) => {
+			state.data = action.payload;
+			state.loading = false;
+		},
+		loadPostsFailure: (state, action) => {
+			state.error = action.payload;
+			state.loading = false;
+		},
+
+		updatePostRequest: (state, action) => {
+			state.loadingUpdatedPost = true;
+		},
+		updatePostSuccess: (state, action) => {
+			const { data } = state;
+			const { payload } = action;
+
+			if (!data) return;
+			if (!payload || !payload.id || !data[payload.id]) return;
+
+			data[payload.id] = {
+				...data[payload.id],
+				...payload
+			};
+
+			state.dataUpdatedPost = null;
+			state.loadingUpdatedPost = false;
+		},
+		updatePostFailure: (state, action) => {
+			state.errorUpdatedPost = action.payload;
+			state.loadingUpdatedPost = false;
+		}
 	}
 });
 
 // Destruct dữ liệu cần thiết (action creators, reducer)
 const { actions, reducer } = loadPostsSlice;
-const { loadPostsRequest, loadPostsSuccess, loadPostsFailure } = actions;
+const {
+	loadPostsRequest,
+	loadPostsSuccess,
+	loadPostsFailure,
+	updatePostRequest,
+	updatePostSuccess,
+	updatePostFailure
+} = actions;
 
 // Action creator thunk xử lý load danh sách post
-const loadPostList = () => async (dispatch: Dispatch) => {
+const loadPosts = () => async (dispatch: Dispatch) => {
 	dispatch(loadPostsRequest());
 
 	const [ error, result ] = await API.posts
@@ -61,5 +107,27 @@ const loadPostList = () => async (dispatch: Dispatch) => {
 	if (result) return dispatch(loadPostsSuccess(result));
 };
 
-export { loadPostList };
+// Action creator thunk xử lý cập nhật post
+const updatePost = () => async (dispatch: Dispatch) => {
+	dispatch(updatePostRequest());
+
+	const fakeAPI = new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve({
+				id: '5dbd445bcc56381648fcbde9',
+				html: '<h5>HTML something fake...</h5>'
+			});
+		}, 5000);
+	});
+
+	const [ error, result ] = await fakeAPI
+		.then((postUpdated) => [ null, postUpdated ])
+		.catch((error) => [ error, null ]);
+
+	if (error) return dispatch(updatePostFailure(error));
+
+	if (result) return dispatch(updatePostSuccess(result));
+};
+
+export { loadPosts, updatePost, updatePostSuccess };
 export default reducer;

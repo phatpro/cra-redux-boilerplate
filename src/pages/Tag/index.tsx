@@ -4,28 +4,37 @@ import { makeStyles } from '@material-ui/styles';
 // components
 
 // hooks
-import { loadPostList } from 'pages/Tag/reducers/loadPostsReducer';
-import { useDispatch, useSelector } from 'react-redux';
+import useLoadPosts from 'pages/Tag/useLoadPosts';
+import useUpdatePost from 'pages/Tag/useUpdatePost';
 
 export default function Tag(props: any) {
 	const classes = useStyles();
-	const dispatch = useDispatch();
-	const { error, loading, data } = useSelector<ApplicationState, PostsState>(
-		(state) => state.posts
-	);
+	const { error, loading, data } = useLoadPosts();
+	const [ update, { errorUpdatedPost, loadingUpdatedPost, dataUpdatedPost } ] = useUpdatePost();
 
 	if (error) return <React.Fragment>Có lỗi xảy ra</React.Fragment>;
 
 	if (loading) return <React.Fragment>Đang load...</React.Fragment>;
 
-	if (!data) {
-		dispatch(loadPostList());
+	function onUpdatePost() {
+		update();
 	}
 
 	return (
 		<div>
 			Tag
-			{data && <pre>{JSON.stringify(data, null, 4)}</pre>}
+			<div>
+				<button onClick={onUpdatePost}>Click change</button>
+			</div>
+			<b>
+				{errorUpdatedPost && 'Có lỗi khi update post...'}
+				{loadingUpdatedPost && 'Đang update post...'}
+				{dataUpdatedPost && 'Update post thành công...'}
+			</b>
+			{data &&
+				Object.entries(data).map((value, key) => {
+					return <pre key={key}>{JSON.stringify(value, null, 4)}</pre>;
+				})}
 		</div>
 	);
 }
