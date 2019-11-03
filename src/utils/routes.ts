@@ -6,11 +6,6 @@ type Route = {
 };
 
 const routes: Record<Page, Route> = {
-	home: {
-		path: '/',
-		to: '/',
-		activeClassName: 'actived'
-	},
 	about: {
 		path: '/about',
 		to: '/about',
@@ -19,6 +14,11 @@ const routes: Record<Page, Route> = {
 	contact: {
 		path: '/contact',
 		to: '/contact',
+		activeClassName: 'actived'
+	},
+	home: {
+		path: '/',
+		to: '/',
 		activeClassName: 'actived'
 	},
 	tag: {

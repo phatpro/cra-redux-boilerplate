@@ -5,6 +5,6 @@ declare namespace NodeJS {
 		/** Ghost API key */
 		REACT_APP_API_CONTENT_KEY: string;
 		/** Ghost API version */
-		REACT_APP_API_VERSION: 'v2' | 'canary' | 'v3';
+		REACT_APP_API_VERSION: 'v2' | 'canary';
 	}
 }

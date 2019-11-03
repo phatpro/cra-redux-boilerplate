@@ -4,35 +4,21 @@ import { History, createBrowserHistory } from 'history';
 import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { AboutState } from 'store/about/types';
-import { aboutReducer } from 'store/about/reducer';
-import { ContactState } from 'store/contact/types';
-import { contactReducer } from 'store/contact/reducer';
-import { LayoutState } from 'store/layout/types';
-import { layoutReducer } from 'store/layout/reducer';
-import { PostsState } from 'store/posts/types';
-import { postsReducer } from 'store/posts/reducer';
-import { TagsState } from 'store/tags/types';
-import { tagsReducer } from 'store/tags/reducer';
+import loadPostsReducer from 'pages/Tag/reducers/loadPostsReducer';
 
-/** Root state */
-interface ApplicationState {
-	about: AboutState;
-	contact: ContactState;
-	layout: LayoutState;
-	posts: PostsState;
-	tags: TagsState;
-	router: RouterState;
+// Khai báo kiểu cho toàn bộ ứng dụng sử dụng
+declare global {
+	/** Root state của toàn bộ ứng dụng */
+	interface ApplicationState {
+		posts: PostsState;
+		router: RouterState;
+	}
 }
 
 /** Root reducer factory */
 const createRootReducer = (history: History) => {
 	return combineReducers<ApplicationState>({
-		about: aboutReducer,
-		contact: contactReducer,
-		layout: layoutReducer,
-		posts: postsReducer,
-		tags: tagsReducer,
+		posts: loadPostsReducer,
 		router: connectRouter(history)
 	});
 };

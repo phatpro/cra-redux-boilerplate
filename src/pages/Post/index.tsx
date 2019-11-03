@@ -6,7 +6,11 @@ import { makeStyles } from '@material-ui/styles';
 export default function Post(props: any) {
 	const classes = useStyles();
 
-	return <div>Post</div>;
+	return (
+		<pre>
+			<div>Post</div>
+		</pre>
+	);
 }
 
 // styles

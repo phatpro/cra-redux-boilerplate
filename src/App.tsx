@@ -7,9 +7,9 @@ import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
 // component pages
-import Home from 'pages/Home';
 import About from 'pages/About';
 import Contact from 'pages/Contact';
+import Home from 'pages/Home';
 import Post from 'pages/Post';
 import Tag from 'pages/Tag';
 
@@ -17,17 +17,10 @@ import Tag from 'pages/Tag';
 import { Provider } from 'react-redux';
 
 // hooks and history object
-import { useReduxStore, history } from 'store';
+import { useReduxStore, history } from 'configStore';
 
 // utils
 import routes from 'utils/routes';
-
-// test api
-import api from 'utils/api';
-api.posts
-	.browse({ limit: 1 })
-	.then((posts) => console.log('posts...', posts))
-	.catch((errors) => console.log('errors...', errors));
 
 const App: React.FC = (props) => {
 	const reduxStore = useReduxStore();
